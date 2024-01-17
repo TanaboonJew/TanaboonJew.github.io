@@ -34,6 +34,48 @@
         a:hover {
             text-decoration: underline;
         }
+        .blog-container {
+            background-color: #34495e; /* Box background color */
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+        .blog-entry {
+            margin-bottom: 20px;
+        }
+        .blog-entry h2 {
+            color: #3498db;
+        }
+        .blog-entry p {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive layout with one column on small screens */
+        @media screen and (max-width: 600px) {
+            .blog-entry {
+                margin-bottom: 15px; /* Adjust spacing for small screens */
+            }
+        }
+
+        /* Two columns for blog entries on larger screens */
+        @media screen and (min-width: 601px) {
+            .blog-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .blog-entry {
+                flex-basis: calc(50% - 20px);
+            }
+        }
+
+        /* Three columns for blog entries on even larger screens */
+        @media screen and (min-width: 900px) {
+            .blog-entry {
+                flex-basis: calc(33.33% - 20px);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -61,8 +103,24 @@
 
     <section>
         <h2>Projects & Experience</h2>
-        <p><strong>EasyMath:</strong> This project, hosted on <a href="https://github.com/TanaboonJew/EasyMath" target="_blank">GitHub</a>, is a Python application that generates simple math questions and saves them as Word documents. The application allows you to specify the number of pages and whether you want the output in PDF format. Each page contains one hundred questions.</p>
-        <p><strong>Huawei ICT Competition 2023-2024:</strong> Represented Thailand in the Computing Track. The competition involved solving real-world problems, showcasing technical skills, and collaborating with fellow participants from across the country.</p>
+        <section class="blog-container">
+            <div class="blog-entry">
+                <h2>EasyMath</h2>
+                <p>This project, hosted on <a href="https://github.com/TanaboonJew/EasyMath" target="_blank">GitHub</a>, is a Python application that generates simple math questions and saves them as Word documents. The application allows you to specify the number of pages and whether you want the output in PDF format. Each page contains one hundred questions.</p>
+            </div>
+
+            <div class="blog-entry">
+                <h2>Huawei ICT Competition 2023-2024</h2>
+                <p>Represented Thailand in the Computing Track. The competition involved solving real-world problems, showcasing technical skills, and collaborating with fellow participants from across the country.</p>
+            </div>
+
+            <!--
+            <div class="blog-entry">
+                <h2>Project template</h2>
+                <p>Project description.</p>
+            </div>
+            -->
+        </section>
     </section>
 
     <section>
