@@ -1,0 +1,53 @@
+---
+title: 'PhotoModeOutfit—Songbird'
+summary: 'A Cyberpunk 2077 Photo Mode outfit mod — and a case study in discovering that Photo Mode does not read the data you think it reads.'
+year: 2026
+status: Shipped
+stack: ['Python', 'ArchiveXL', 'TweakXL', 'WolvenKit']
+featured: true
+privateSource: true
+order: 3
+---
+
+> The obvious solution did not work. Here's why.
+
+## The idea
+
+Songbird's outfits exist in the game files but never appear in Photo Mode, which is exactly where you want them. The plan looked trivial: register the appearances the normal way, patch one record, done. That plan survived about ten minutes.
+
+## How it works
+
+The obvious assumption: Photo Mode lists outfits from an entity's appearance resource. It does not. While every other outfit system in the game resolves through the standard appearance list, Photo Mode reads a **separate TweakDB array** that ships with its own curated entries. Patching the appearance list changed nothing visible; the array was the actual source of truth.
+
+```text
+   what you assume Photo Mode reads        what it actually reads
+  ┌──────────────────────────┐          ┌─────────────────────────────┐
+  │  appearance resource     │          │  TweakDB flat array         │
+  │  (entity.appearances[])   │          │  (Photo Mode outfit list)   │
+  └────────────┬─────────────┘          └──────────────┬──────────────┘
+               │                                       │
+               ▼                                       ▼
+        outfit added here                    mod appends entries HERE
+               │                                       │
+               ▼                                       ▼
+        ...nothing happens ✗                  outfit shows up ✓
+```
+
+Finding it meant opening the game's record dumps in WolvenKit and diffing which records actually changed when Photo Mode rendered its outfit picker — then tracing the reference chain backwards until the array fell out.
+
+## Engineering notes
+
+- **Tooling limitation workaround:** at the time there was no first-class editor support for appending to that particular TweakDB array type, so the mod generates a TweakXL patch file programmatically with a Python script instead of hand-editing binary blobs.
+- **The generator is idempotent.** Re-running the build regenerates patches deterministically from a declarative outfit manifest, so adding an outfit is a two-line data change.
+- **Validation pipeline:** because Photo Mode is fussy about malformed entries (silent failures only), a Python validator checks every generated entry against known-good shapes — record exists, array types match, no duplicate handles — before anything ships.
+- **WolvenKit stays in the loop** for inspecting upstream changes between game patches; each patch release starts with re-dumping the relevant records and re-diffing.
+
+The lesson generalizes past this mod: when a feature ignores your changes, verify *where it reads its data* before debugging how you write it.
+
+## Screenshots
+
+<div class="shot-grid">
+  <div class="shot-frame">Screenshot placeholder — Photo Mode outfit picker with mod entries</div>
+  <div class="shot-frame">Screenshot placeholder — WolvenKit record diff view</div>
+  <div class="shot-frame">Screenshot placeholder — validator output on a clean run</div>
+</div>

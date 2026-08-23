@@ -1,0 +1,23 @@
+---
+title: 'Building an Agent Pipeline Without Pretending Agents Are Reliable'
+description: 'Failure is the normal case. Design for interruption, review, and artifacts — not for a smooth ride.'
+published: '2026-08-18'
+tags: ['AI & Agents']
+draft: false
+---
+
+There's a genre of agent framework demo where everything works on the first try. The pipeline executes end to end, tests pass, confetti. Then you use it on a real codebase and discover that reality includes flaky tools, context windows that silently truncate, and models that misread a file path with total confidence.
+
+The mistake is treating failure as exceptional. In any long-running agentic system, failure is the *steady state* between brief stretches of success. Once you accept that, the design requirements flip.
+
+**Interruption has to be free.** If stopping a run means losing its state, people will let bad runs continue out of sunk-cost inertia. Every stage in my pipelines checkpoints to disk before proceeding. Killing a run mid-implementation costs nothing; resuming picks up from the last completed stage with identical inputs. A system you're afraid to interrupt is a system you can't steer.
+
+**Review needs a physical bottleneck.** Soft suggestions get skipped; gates don't. The approval checkpoint in Foreman is not a notification, it's a state the run cannot leave without an explicit decision. This sounds bureaucratic until you watch an implementer agent spend twenty minutes "fixing" a test by deleting it. The gate converts that from a post-mortem into a two-second reject.
+
+**Artifacts beat logs.** Logs are for debugging what happened. Artifacts are for deciding what happens next. Each stage persists its actual outputs — context bundles, plan revisions, diffs, test results — as ordinary files. This gives you three things for free: auditability after the fact, diffability across runs, and the ability to hand a failed stage's output to a different model and see if it does better. Plain files also mean every tool you already own works: grep, diff, your editor, your backup script.
+
+**Retries need categories, not hope.** Retrying a transient tool error makes sense. Retrying a plan that misunderstands the requirement just produces a more confident version of the same misunderstanding. My rule of thumb: retry infrastructure failures automatically (with backoff), route semantic failures to humans or to earlier stages. Counting retries without classifying them just burns money at a slower rate.
+
+**Test the orchestrator without the model.** The orchestration layer — state transitions, gates, artifact writing, resume logic — should be fully testable offline against scripted worker outputs. Deterministic fake workers catch regressions in the plumbing, which is exactly where you want zero surprises when a real run is three hours deep.
+
+None of this is glamorous. It's state machines and file formats and exit codes. But reliability was never going to come from the model being smarter next year. It comes from building systems that expect to be wrong, make that wrongness visible early, and keep the blast radius small. Pretending otherwise doesn't make agents reliable — it just makes their failures expensive.

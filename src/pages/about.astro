@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const interests = ['Linux', 'Rust', 'AI agents', 'Hardware', 'Gaming'];
+---
+
+<BaseLayout
+  title="About — Tanaboon Jewriyavetch"
+  description="Tanaboon “Max” Jewriyavetch: software developer in Thailand working on Linux systems, developer tooling and automation."
+>
+  <section class="container">
+    <div class="page-hero">
+      <h1>About</h1>
+      <p class="lede">Software Developer at Western Digital · Thailand.</p>
+    </div>
+
+    <div class="prose" style="padding-bottom: var(--space-section);">
+      <p>
+        I'm Max — a developer based in Thailand, currently building internal software at Western
+        Digital in a Linux-focused engineering environment. My curiosity orbits the same few stars:
+        how developer tools actually work, why systems break in production, and what automation is
+        worth writing versus automating for its own sake.
+      </p>
+
+      <p>
+        I use AI heavily in my workflow, but not in the "one prompt, ship it" way. What interests me
+        is agents that can plan work, maintain context across a long task, and review each other's
+        output — pipelines with checkpoints where a human still gets the final word. That fascination
+        turned into Foreman, which has its own write-up under <a href="/work/foreman/">Work</a>.
+      </p>
+
+      <p>
+        Outside of work: gaming, keeping PCs running past their warranty, running local models on
+        hardware that complains about it, reading, and writing things down so future me stops
+        re-solving the same problems.
+      </p>
+
+      <p class="identity-line" style="font-weight: 550;">I build software. It works. That's generally the goal.</p>
+
+      <p class="interest-tags">{interests.join(' · ')}</p>
+
+      <div class="btn-row">
+        <a class="btn btn-secondary" href="/resume.pdf">Résumé ↗</a>
+        <a class="btn btn-secondary" href="https://github.com/TanaboonJew" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="btn btn-primary" href="mailto:tanaboon.jew@gmail.com">Email</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

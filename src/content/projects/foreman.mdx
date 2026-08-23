@@ -1,0 +1,55 @@
+---
+title: 'Foreman'
+summary: 'A goal-to-handoff orchestrator that turns one vague objective into a supervised, inspectable agent pipeline.'
+year: 2025
+status: Active
+stack: ['Rust', 'Tauri', 'Preact', 'YAML', 'CLI']
+featured: true
+privateSource: true
+order: 1
+---
+
+## The idea
+
+Handing a coding agent one giant task and walking away produces exactly what you'd expect: one giant result, and no way to tell where it went wrong. Foreman is the opposite of that. You give it a goal, it plans, and every stage of the pipeline is a checkpoint you can inspect, approve, reject, or rerun before anything touches your repository. It exists because I wanted pipelines that are interruptible by design, not agents that are confident by default.
+
+## How it works
+
+```text
+        ┌──────────────────────────────────────────────────────────┐
+        │                     Foreman engine                       │
+        │                                                          │
+Goal ──▶│ Gather ──▶ Plan ──▶ [Human approval] ──▶ Implement       │
+        │   ▲                        │                 │           │
+        │   │                        │ revise          ▼           │
+        │   └──── new context ───────┘              Test            │
+        │                                            │             │
+        │                              pass ──▶ Handoff ──▶ done    │
+        │                               fail ──▶ back to Plan      │
+        └──────────────────────────────────────────────────────────┘
+
+Roles (configurable per run):
+  planner    → drafts the plan, proposes scope cuts
+  implementer→ writes code against the approved plan only
+  reviewer   → reads diffs, files objections as structured notes
+  tester     → runs suites, reports failures verbatim
+```
+
+Each arrow is a state transition written to disk. Nothing is implicit: if the run stopped at the approval gate two days ago, restarting resumes from exactly there, with the same context bundle the planner saw.
+
+## Engineering notes
+
+- **Roles are configurable in YAML.** A role is a name, an instruction template, and tool permissions. Per-role model assignment means the planner can run on a slower reasoning model while the implementer runs on whatever is fastest for mechanical edits.
+- **Approval checkpoints are hard gates.** A run physically cannot proceed past `[Human approval]` without an explicit decision, recorded with a timestamp and optional revision notes.
+- **Workflow templates** encode reusable shapes ("greenfield feature", "bug triage", "refactor with review") instead of retyping instructions every time.
+- **CLI and Tauri GUI drive the same engine.** The GUI is not a wrapper around the CLI's output; both are thin frontends over one Rust core, so a run started in the terminal shows up live in the desktop app.
+- **Run artifacts are everything.** Every run persists its gathered context, plan revisions, diffs, test output, and decisions as plain files on disk. A run folder is a complete audit trail you can `grep`.
+- **The fake worker makes testing honest.** An offline, deterministic worker implementation replays scripted outputs, so the whole orchestration layer — gates, retries, artifact writing — is tested without touching a real model or network.
+
+## Screenshots
+
+<div class="shot-grid">
+  <div class="shot-frame">Screenshot placeholder — pipeline overview board</div>
+  <div class="shot-frame">Screenshot placeholder — approval checkpoint dialog</div>
+  <div class="shot-frame">Screenshot placeholder — run artifacts file tree</div>
+</div>

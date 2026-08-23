@@ -1,0 +1,27 @@
+---
+title: 'Why I Built Foreman'
+description: 'Giving one agent one giant vague task produces one giant vague result. Foreman is what I built instead.'
+published: '2026-08-10'
+tags: ['AI & Agents']
+draft: false
+---
+
+Every few weeks someone shows me a screenshot of an agent that ran for six hours, burned an unreasonable amount of tokens, and produced half a feature welded to three unrelated refactors. The prompt was something like "add dark mode and fix the flaky tests." The result is always the same shape: giant task in, giant vague result out.
+
+I don't think this is a model problem. I think it's a management problem. When you hand a contractor a napkin with a sentence on it and leave town for a week, you get whatever you get. The fix isn't a better contractor — it's better structure around the work.
+
+So I built Foreman, an orchestrator that refuses to accept a mega-prompt. A goal goes in; the system gathers context, drafts a plan, and then *stops*. There's a gate between planning and doing, and nothing crosses it without a human pressing approve. That single design decision eliminated about 90% of the "what is it actually doing right now" anxiety, because the answer is never "unknown" — it's "waiting at stage 3, here's the plan."
+
+The pipeline itself is deliberately boring: Gather → Plan → approval → Implement → Test → Handoff. Each role — planner, implementer, reviewer, tester — is configurable in YAML with its own instruction template and its own model assignment. The planner can be a slow reasoning model that's good at scoping; the implementer can be whatever is cheapest at applying diffs correctly. Roles are data, not incantations buried in a 4,000-token system prompt.
+
+Two more choices matter more than they look.
+
+First, workflow templates. Most of my tasks fall into a handful of shapes — greenfield feature, bug triage, refactor with review. Encoding those shapes once means starting a run takes thirty seconds instead of fifteen minutes of prompt archaeology.
+
+Second, run artifacts. Every stage writes plain files to disk: the gathered context, each plan revision, the diffs, test output, every approve/reject decision with a timestamp. A finished run folder reads like a lab notebook. When something goes wrong, I'm not reconstructing events from chat scrollback; I'm reading files.
+
+The part people find surprising: none of this makes agents look smarter. It makes their failure modes boring. A bad plan gets rejected at the gate instead of executed with confidence. A test failure routes back to planning instead of triggering an improvised rewrite of your auth layer. The system assumes the model will be wrong sometimes and builds the rails so wrongness is cheap to catch.
+
+That's the whole thesis, really. Agents are eager interns with infinite stamina and no taste. You don't get good results by hoping; you get them by making the pipeline inspectable, the checkpoints mandatory, and the artifacts permanent.
+
+Foreman started as a weekend scratch-your-own-itch project and turned into the tool I use daily. It works because it stopped asking "how do I write a better prompt" and started asking "how do I supervise work I can't fully trust." Those are very different engineering problems, and only one of them has a real answer.

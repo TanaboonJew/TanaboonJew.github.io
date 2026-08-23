@@ -1,0 +1,22 @@
+{
+  "name": "portfolio-site",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/make-resume.mjs && astro build",
+    "preview": "astro preview",
+    "resume": "node scripts/make-resume.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.14",
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource-variable/inter": "^5.2.8",
+    "astro": "^5.16.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

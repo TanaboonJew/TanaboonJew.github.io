@@ -1,0 +1,67 @@
+/* ---------------------------------------------
+   Design tokens
+   --------------------------------------------- */
+
+:root {
+  /* Light palette (default) */
+  --bg: #FAFAF9;
+  --surface: #FFFFFF;
+  --text: #18181B;
+  --muted: #71717A;
+  --border: #E4E4E7;
+  --accent: #2563EB;
+  --accent-hover: #1D4ED8;
+
+  /* Type */
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --size-hero: 64px;
+  --size-tagline: 28px;
+  --size-h2: 32px;
+  --size-h3: 22px;
+  --size-body: 17px;
+  --size-small: 14px;
+  --size-meta: 13px;
+
+  /* Layout */
+  --w-content: 1120px;
+  --w-reading: 720px;
+  --space-section: clamp(96px, 11vw, 128px);
+
+  /* Motion budget: very low */
+  --speed-fast: 150ms;
+  --speed-med: 200ms;
+}
+
+/* Dark palette via manual toggle */
+[data-theme='dark'] {
+  --bg: #0C0D0E;
+  --surface: #141517;
+  --text: #F4F4F5;
+  --muted: #A1A1AA;
+  --border: #27272A;
+  --accent: #60A5FA;
+  --accent-hover: #93C5FD;
+}
+
+/* Dark palette via OS preference (unless manually overridden to light) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0C0D0E;
+    --surface: #141517;
+    --text: #F4F4F5;
+    --muted: #A1A1AA;
+    --border: #27272A;
+    --accent: #60A5FA;
+    --accent-hover: #93C5FD;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --size-hero: 42px;
+    --size-tagline: 23px;
+    --space-section: 96px;
+  }
+}

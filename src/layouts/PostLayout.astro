@@ -1,0 +1,43 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  post: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      published: Date;
+      tags: string[];
+    };
+  };
+}
+
+const { post } = Astro.props;
+const { data } = post;
+
+const fmt = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' });
+const metaLine = [data.tags.join(' & ').replace(/^./, (c) => c.toUpperCase()), fmt.format(data.published)]
+  .filter(Boolean)
+  .join(' · ');
+---
+
+<BaseLayout title={`${data.title} — Tanaboon Jewriyavetch`} description={data.description}>
+  <article class="container reading">
+    <header class="article-header">
+      <p class="meta-line">{metaLine}</p>
+      <h1>{data.title}</h1>
+      <p class="desc">{data.description}</p>
+    </header>
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    <footer class="article-footer-note">
+      <p class="meta-line">
+        <a href="/writing/">← All posts</a>
+      </p>
+    </footer>
+  </article>
+</BaseLayout>

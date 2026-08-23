@@ -1,0 +1,28 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  oneliner: string;
+  description: string;
+  stack: string[];
+  href: string;
+  status?: string;
+  wide?: boolean;
+}
+
+const { index, title, oneliner, description, stack, href, status, wide = false } = Astro.props;
+---
+
+<a class:list={['project-card', { 'card-wide': wide }]} href={href}>
+  <div class="card-label-row">
+    <span class="card-index">{index}</span>
+    {status && <span class="card-status">{status}</span>}
+  </div>
+  <h3>{title}</h3>
+  <p class="card-oneliner">{oneliner}</p>
+  <p class="card-desc">{description}</p>
+  <ul class="tag-row">
+    {stack.map((s) => <li>{s}</li>)}
+  </ul>
+  <span class="card-view">View project <span class="arrow">→</span></span>
+</a>

@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { archive, archiveCount } from '../../data/archive';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Work — Tanaboon Jewriyavetch"
+  description="Selected case studies and a full archive of 40 personal projects: full-stack apps, APIs, libraries, CLI tools and visualizers."
+>
+  <section class="container">
+    <div class="page-hero">
+      <h1>Work</h1>
+      <p class="lede">
+        Three projects I can talk about in depth, then the archive: {archiveCount} smaller tools,
+        services and experiments that each taught me something specific.
+      </p>
+    </div>
+
+    <div class="work-grid" style="padding-bottom: var(--space-section);">
+      {projects.map((project, i) => (
+        <ProjectCard
+          index={String(i + 1).padStart(2, '0')}
+          title={project.data.title}
+          oneliner={project.data.summary.split('.')[0] + '.'}
+          description={project.data.summary}
+          stack={project.data.stack}
+          status={project.data.status}
+          href={`/work/${project.id}/`}
+          wide={i === 0}
+        />
+      ))}
+    </div>
+
+    <h2 style="font-size: var(--size-h2); font-weight: 650; margin-bottom: 20px;">Everything else</h2>
+    <p class="private-note">
+      Most of these are private repos — ask me and I'll happily walk through the code.
+    </p>
+
+    {archive.map((group) => (
+      <section class="archive-category">
+        <h3>
+          {group.category}
+          <span class="chip">{group.items.length}</span>
+        </h3>
+        <div class="archive-grid">
+          {group.items.map((item) => (
+            <div class="archive-card">
+              <p class="name">
+                {item.name}
+                <span class="chip">{group.category}</span>
+              </p>
+              <p class="blurb">{item.blurb}</p>
+              <ul class="tag-row" style="margin-bottom: 0;">
+                {item.stack.map((s) => <li>{s}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+  </section>
+</BaseLayout>

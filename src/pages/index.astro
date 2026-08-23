@@ -1,0 +1,120 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostCard from '../components/PostCard.astro';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .slice(0, 3);
+
+const interests = ['Linux', 'Rust', 'AI agents', 'Hardware', 'Gaming'];
+---
+
+<BaseLayout
+  title="Tanaboon “Max” Jewriyavetch — Software Developer"
+  description="Software developer based in Thailand. Building tools around Linux, automation, developer workflows and AI agents."
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-kicker">tanaboonjew.github.io</p>
+      <h1>Tanaboon “Max” Jewriyavetch</h1>
+      <p class="hero-role">Software Developer, Western Digital · Thailand</p>
+      <p class="hero-lines">
+        I build software.<br />
+        It works.<br />
+        That's generally the goal.
+      </p>
+      <p class="hero-subline">Linux, developer tooling, automation, and increasingly too many AI agents.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/work/">View my work <span class="arrow">→</span></a>
+        <a class="btn btn-secondary" href="https://github.com/TanaboonJew" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Selected Work -->
+  <section class="section" id="work">
+    <div class="container">
+      <div class="section-head">
+        <h2>Selected Work</h2>
+        <a class="see-all" href="/work/">All 40+ projects →</a>
+      </div>
+      <div class="work-grid">
+        {projects.map((project, i) => (
+          <ProjectCard
+            index={String(i + 1).padStart(2, '0')}
+            title={project.data.title}
+            oneliner={project.data.summary.split('.')[0] + '.'}
+            description={project.data.summary}
+            stack={project.data.stack}
+            status={project.data.status}
+            href={`/work/${project.id}/`}
+            wide={i === 0}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="section" id="experience">
+    <div class="container">
+      <div class="section-head">
+        <h2>Experience</h2>
+      </div>
+      <div class="xp-item">
+        <div>
+          <p class="xp-org">Western Digital</p>
+          <p class="xp-meta">Sep 2025 – Present · Thailand</p>
+        </div>
+        <div>
+          <p class="xp-org" style="margin-bottom: 4px;">Software Developer</p>
+          <p class="xp-line">Building and maintaining internal software in a Linux-focused engineering environment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Writing -->
+  <section class="section" id="writing">
+    <div class="container">
+      <div class="section-head">
+        <h2>Writing</h2>
+        <a class="see-all" href="/writing/">All posts →</a>
+      </div>
+      <div class="post-list">
+        {posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            published={post.data.published}
+            tags={post.data.tags}
+            href={`/writing/${post.id}/`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- About snippet -->
+  <section class="section about-snippet" id="about">
+    <div class="container">
+      <div class="section-head">
+        <h2>About</h2>
+      </div>
+      <p>
+        Software developer in Thailand. I spend most of my time around Linux, developer tooling,
+        automation, and figuring out why things break. Lately that means building agent pipelines
+        with real checkpoints instead of vibes.
+      </p>
+      <p class="identity-line">I build software. It works. That's generally the goal.</p>
+      <p class="interest-tags">{interests.join(' · ')}</p>
+      <a class="text-link" href="/about/">More about me <span class="arrow">→</span></a>
+    </div>
+  </section>
+</BaseLayout>

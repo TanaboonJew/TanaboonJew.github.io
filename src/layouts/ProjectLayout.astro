@@ -1,0 +1,44 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  project: {
+    id: string;
+    data: {
+      title: string;
+      summary: string;
+      year: number;
+      status: string;
+      stack: string[];
+    };
+  };
+}
+
+const { project } = Astro.props;
+const { data } = project;
+---
+
+<BaseLayout title={`${data.title} — Tanaboon Jewriyavetch`} description={data.summary}>
+  <article>
+    <header class="container">
+      <div class="page-hero">
+        <p class="section-index"><a href="/work/" class="text-link">← Work</a></p>
+        <h1 style="margin-top: 18px;">{data.title}</h1>
+        <p class="lede">{data.summary}</p>
+        <div class="case-meta">
+          <span class="chip chip-accent">{data.status}</span>
+          <span class="chip">{data.year}</span>
+          {data.stack.map((s) => <span class="chip">{s}</span>)}
+        </div>
+      </div>
+    </header>
+
+    <div class="container reading prose" style="padding-bottom: 24px;">
+      <slot />
+    </div>
+
+    <div class="container reading article-footer-note">
+      <p class="meta-line">Source isn't public. The write-up is.</p>
+    </div>
+  </article>
+</BaseLayout>

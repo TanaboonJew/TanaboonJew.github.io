@@ -1,0 +1,57 @@
+---
+title: 'Passenger Princess'
+summary: 'A Cyberpunk 2077 mod that gives NPCs a persistent life as a passenger — riding along, watching the road, and surviving vehicle state changes gracefully.'
+year: 2026
+status: Released
+stack: ['Lua', 'Cyber Engine Tweaks']
+featured: true
+privateSource: true
+order: 2
+---
+
+## The idea
+
+Vehicles in Cyberpunk 2077 treat passengers as set dressing. Passenger Princess makes an NPC actually *ride with you*: they persist between sessions, react to how you drive, look where a person would look, and leave cleanly when the ride ends. The interesting engineering is not the gimmick — it is keeping an entity consistent in a game engine that actively wants to despawn it.
+
+## How it works
+
+The whole mod hangs off entity and vehicle state handling. Every tick reconciles three sources of truth: the game's entity registry, the vehicle's seat occupancy, and the mod's own session record.
+
+```text
+                 ┌────────────────────────────────────────────┐
+                 │            passenger session               │
+                 │                                            │
+ spawn request ──▶  validate ──▶ register ──▶ SEATED          │
+                 │      │                       │             │
+                 │      │ invalid entity        ▼             │
+                 │      ▼                   per-tick loop       │
+                 │   abort safely           ├─ sync animation  │
+                 │                          ├─ update gaze     │
+                 │                          └─ check guards    │
+                 │                                │             │
+                 │              door opened / seat lost /       │
+                 │              vehicle destroyed / despawn     │
+                 │                                ▼             │
+                 │                            TEARDOWN          │
+                 │                          (restore AI, save    │
+                 │                           session record)     │
+                 └────────────────────────────────────────────┘
+```
+
+The session record survives save/load and game restarts. If you log out mid-ride, the passenger is restored to the correct seat — or to a safe fallback state if the vehicle no longer exists.
+
+## Engineering notes
+
+- **Entity validity before everything.** Cyber Engine Tweaks hands you raw handles; every call site goes through guards that verify the entity still exists, is alive, and is the one we think it is. Despawned entities are the number-one crash source in CET mods, so teardown paths are exercised on every guard.
+- **Vehicle state handling is defensive by default.** Seat occupancy, door state, and destruction events are checked against the game's own state rather than cached values. The mod never assumes "still seated" — it re-reads.
+- **Gaze behavior** targets the driver's head with configurable attention points (road, player, points of interest), driven through the anim system rather than hard bone rotation, so other appearance mods don't fight it.
+- **Extension/profile API.** Behavior packs ("profiles") are declarative data: gaze weights, idle animations, chatter hooks. Other mods can register profiles without touching core logic, and malformed registrations fail closed with a logged reason instead of poisoning the session manager.
+- **Compatibility safeguards:** version detection for game patches, feature probes before calling newer scripting APIs, and a hard disable path that leaves zero residual state if anything fails on boot.
+
+## Screenshots
+
+<div class="shot-grid">
+  <div class="shot-frame">Screenshot placeholder — passenger seated, night drive</div>
+  <div class="shot-frame">Screenshot placeholder — gaze tracking the driver</div>
+  <div class="shot-frame">Screenshot placeholder — profile configuration file</div>
+</div>

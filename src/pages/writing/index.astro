@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+---
+
+<BaseLayout
+  title="Writing — Tanaboon Jewriyavetch"
+  description="Notes on agent pipelines, developer tooling, modding and running things locally. Concise and dry, like the software."
+>
+  <section class="container">
+    <div class="page-hero">
+      <h1>Writing</h1>
+      <p class="lede">Notes on building things with agents, tools that behave, and systems that fail politely.</p>
+    </div>
+
+    <div class="post-list" style="padding-bottom: var(--space-section);">
+      {posts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          published={post.data.published}
+          tags={post.data.tags}
+          href={`/writing/${post.id}/`}
+        />
+      ))}
+    </div>
+
+    <div style="padding-bottom: var(--space-section); margin-top: -64px;">
+      <a class="text-link" href="/rss.xml">RSS feed <span class="arrow">→</span></a>
+    </div>
+  </section>
+</BaseLayout>
