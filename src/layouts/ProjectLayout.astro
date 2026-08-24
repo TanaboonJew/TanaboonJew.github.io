@@ -38,7 +38,7 @@ const { data } = project;
     </div>
 
     <div class="container reading article-footer-note">
-      <p class="meta-line">Source isn't public. The write-up is.</p>
+      {data.privateSource && <p class="meta-line">Source isn't public. The write-up is.</p>}
     </div>
   </article>
 </BaseLayout>

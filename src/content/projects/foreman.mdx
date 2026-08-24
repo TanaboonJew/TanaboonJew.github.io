@@ -1,9 +1,9 @@
 ---
 title: 'Foreman'
-summary: 'A goal-to-handoff orchestrator that turns one vague objective into a supervised, inspectable agent pipeline.'
+summary: 'A workflow orchestrator for coding agents: configurable role pipelines on top of OpenCode, with persistent state, approval gates, and resumable runs.'
 year: 2025
 status: Active
-stack: ['Rust', 'Tauri', 'Preact', 'YAML', 'CLI']
+stack: ['Rust', 'Tauri', 'OpenCode', 'Agent orchestration', 'CLI']
 featured: true
 privateSource: true
 order: 1
@@ -11,45 +11,61 @@ order: 1
 
 ## The idea
 
-Handing a coding agent one giant task and walking away produces exactly what you'd expect: one giant result, and no way to tell where it went wrong. Foreman is the opposite of that. You give it a goal, it plans, and every stage of the pipeline is a checkpoint you can inspect, approve, reject, or rerun before anything touches your repository. It exists because I wanted pipelines that are interruptible by design, not agents that are confident by default.
+Handing a coding agent one giant task and walking away produces exactly what you'd expect: one giant result, and no way to tell where it went wrong. Foreman is the opposite of that. You give it a goal, it plans, and every stage of the pipeline is a checkpoint you can inspect, approve, reject, or rerun before anything touches your repository.
+
+The division of labor is deliberate:
+
+> **Foreman decides who works, in what order, under what constraints, and when a human must intervene. OpenCode decides how an individual coding agent actually performs its work.**
+
+Foreman is not an LLM client and not another coding agent. It is the layer above the coding agent. Provider credentials, tool execution, permissions, MCP, sessions — that all stays in OpenCode. Providers like OpenRouter and Ollama sit behind OpenCode too, so Foreman can put a cloud reasoning model on the planner and a local model on the implementer without ever seeing an API key.
+
+```text
+Foreman ──▶ OpenCode ──▶ OpenRouter ──▶ cloud model
+                └──────▶ Ollama ──────▶ local model
+```
 
 ## How it works
 
 ```text
-        ┌──────────────────────────────────────────────────────────┐
-        │                     Foreman engine                       │
-        │                                                          │
-Goal ──▶│ Gather ──▶ Plan ──▶ [Human approval] ──▶ Implement       │
-        │   ▲                        │                 │           │
-        │   │                        │ revise          ▼           │
-        │   └──── new context ───────┘              Test            │
-        │                                            │             │
-        │                              pass ──▶ Handoff ──▶ done    │
-        │                               fail ──▶ back to Plan      │
-        └──────────────────────────────────────────────────────────┘
-
-Roles (configurable per run):
-  planner    → drafts the plan, proposes scope cuts
-  implementer→ writes code against the approved plan only
-  reviewer   → reads diffs, files objections as structured notes
-  tester     → runs suites, reports failures verbatim
+Goal
+ │
+ ▼
+Gather ── role: gatherer · policy: readonly
+ │
+ ▼
+Plan ──── role: planner · policy: readonly
+ │
+ ▼
+[Human approval] ── approve / reject / revise, recorded to disk
+ │ approved
+ ▼
+Implement ── role: worker · policy: workspace-write
+ │
+ ▼
+Test ──── role: tester · policy: test-fix
+ │
+ ├── failed ──▶ configured failure action
+ ▼
+Handoff ── validated working tree (never commit / push / PR)
 ```
 
-Each arrow is a state transition written to disk. Nothing is implicit: if the run stopped at the approval gate two days ago, restarting resumes from exactly there, with the same context bundle the planner saw.
+Roles are markdown files with YAML frontmatter — name, description, optional `provider/model` plus variant, and a named permission policy. Pipelines are YAML: stage ids, role assignments, approval gates, and explicit `on_revise` / `on_fail` transitions. Nothing about the flow is implicit or hardcoded.
 
 ## Engineering notes
 
-- **Roles are configurable in YAML.** A role is a name, an instruction template, and tool permissions. Per-role model assignment means the planner can run on a slower reasoning model while the implementer runs on whatever is fastest for mechanical edits.
-- **Approval checkpoints are hard gates.** A run physically cannot proceed past `[Human approval]` without an explicit decision, recorded with a timestamp and optional revision notes.
-- **Workflow templates** encode reusable shapes ("greenfield feature", "bug triage", "refactor with review") instead of retyping instructions every time.
-- **CLI and Tauri GUI drive the same engine.** The GUI is not a wrapper around the CLI's output; both are thin frontends over one Rust core, so a run started in the terminal shows up live in the desktop app.
-- **Run artifacts are everything.** Every run persists its gathered context, plan revisions, diffs, test output, and decisions as plain files on disk. A run folder is a complete audit trail you can `grep`.
-- **The fake worker makes testing honest.** An offline, deterministic worker implementation replays scripted outputs, so the whole orchestration layer — gates, retries, artifact writing — is tested without touching a real model or network.
+- **One OpenCode session per stage.** A run gets separate sessions for gather, plan, implement, and test — parallel workers get their own sessions too. Session IDs are persisted in the run manifest, so transcripts stay isolated by role and every stage remains independently retryable and auditable.
+- **Real state machine, real persistence.** Stages move through `pending → running → awaiting_approval → succeeded/failed/rejected/cancelled`, and every transition lands in `run.json`, an append-only `events.ndjson`, and human-readable `run.md`. `foreman resume <id>` genuinely reconstructs state from disk; `foreman rerun <id> --stage plan` resets exactly the downstream work.
+- **Approvals are stored objects**, not chat replies: decision (`approve` / `reject` / `revise`), timestamp with timezone offset, and an optional note. The GUI surfaces them as hard gates — the pipeline physically stops without one.
+- **Policies are separated from models.** Four built-in permission profiles (`readonly`, `workspace-write`, `test-fix`, `unrestricted`) map onto OpenCode's allow/ask/deny capability rules, including bash command patterns. Every default denies `git commit` and `git push`. The default pipeline ends at a validated working tree, never at an autonomous merge.
+- **Dynamic model discovery.** Foreman ships no model catalog. It asks the OpenCode server what providers and models exist, validates each role's assignment against that live catalog before running, and fails with a clean "model unavailable, did you mean…" error instead of a mystery crash. Managed mode spawns and supervises its own loopback-only OpenCode server with per-launch credentials; attach mode connects to one you already run.
+- **`foreman doctor`.** One command checks executable, server health, provider connectivity, workspace writability, and run-directory access — exit code friendly for CI.
+- **The fake worker makes testing honest.** An offline deterministic worker replays scripted outputs, so the whole orchestration layer — gates, transitions, artifact writing — is tested without touching a model or network. The HTTP client is tested against a scripted mock server, with a live-gated integration test against a real OpenCode instance. Full suite: 106 tests.
+- **Run folders are the audit trail.** Manifest, per-stage transcripts, diffs, approvals, and the event log are plain files. You can inspect a complete run with `cat` and `grep`, no app required.
 
 ## Screenshots
 
 <div class="shot-grid">
   <div class="shot-frame">Screenshot placeholder — pipeline overview board</div>
   <div class="shot-frame">Screenshot placeholder — approval checkpoint dialog</div>
-  <div class="shot-frame">Screenshot placeholder — run artifacts file tree</div>
+  <div class="shot-frame">Screenshot placeholder — foreman doctor output</div>
 </div>

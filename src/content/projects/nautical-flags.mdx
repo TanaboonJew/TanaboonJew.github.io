@@ -1,0 +1,44 @@
+---
+title: 'Signal Flags'
+summary: 'An interactive translator that hoists any text as International Code of Signals flags — all 26 letter flags drawn in code from their heraldic blazons, zero image assets.'
+year: 2026
+status: Live
+stack: ['Astro', 'SVG', 'Vanilla JS']
+featured: true
+privateSource: false
+order: 4
+---
+
+import NauticalFlagTranslator from '../../components/NauticalFlagTranslator.astro';
+
+## The idea
+
+Before radio, ships talked by stringing colored cloth on a halyard. The International Code of Signals assigns a flag to every letter A–Z, and each one carries its own meaning when flown alone — Oscar means *man overboard*, Uniform means *you are running into danger*, and Quebec is how a ship says *I'm healthy, let me in*. I wanted to type any text and see it dressed as a hoist, so I built it into this site.
+
+## Try it
+
+<NauticalFlagTranslator />
+
+## How it works
+
+There are no images anywhere in this project. Every flag is an SVG generated at build time from geometry, and the geometry comes from each flag's heraldic blazon — the formal description heralds have used since before ships had radios.
+
+```text
+"bravo zulu" ──▶ upper() ──▶ tokens ──▶ tiles ──▶ word groups
+                              B,R,A,V,O     ▢▢▢▢▢ ▢▢▢▢
+                              Z,U,L         gap = space
+                                        unknown chars get a
+                                        dashed tile, never dropped
+```
+
+- **Swallowtails** (Alfa, Bravo) are a single path with the notch cut 36% into the fly.
+- **Yankee** is "bendy sinister of ten or and gules": ten diagonal bands running upper-fly to lower-hoist. That's computed by parameterizing stripe boundaries along `t = x + y` and intersecting each band with the flag rectangle.
+- **Zulu** is four triangles meeting at center per saltire; **Oscar** splits on the diagonal with yellow in the lower-hoist triangle. Getting these orientations right meant pulling the reference SVGs and reading the actual paths instead of trusting memory or random chart images.
+
+## Engineering notes
+
+- **Build-time generation.** All 26 flags render from one data table of blazons during the Astro build. The client receives finished SVG strings as JSON — no runtime geometry math, no libraries.
+- **The translator is the only JavaScript.** It re-renders the hoist on every keystroke by cloning prebuilt SVG strings from a JSON island. The alphabet chart below it is fully static HTML.
+- **Spaces become gaps, not missing flags.** A real hoist separates words with distance on the halyard, so the renderer groups tiles into words instead of collapsing whitespace.
+- **Unknown characters fail visibly.** Digits and punctuation get a dashed placeholder tile showing the original character. Silent dropping is how you end up flying a message you didn't mean.
+- **Signal colors ignore dark mode.** The page chrome follows the theme, but the flags stay fixed-color — a red Bravo at sea doesn't dim because you prefer dark interfaces. White fields get a hairline outline so they survive light backgrounds.

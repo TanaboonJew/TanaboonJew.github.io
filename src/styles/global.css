@@ -717,6 +717,10 @@ main {
   color: var(--accent);
 }
 
+.prose pre {
+  overflow-x: auto;
+}
+
 .prose a:hover {
   color: var(--accent-hover);
 }
