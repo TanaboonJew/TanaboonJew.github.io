@@ -9,7 +9,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>
 endobj
 4 0 obj
-<< /Length 2460 >>
+<< /Length 2464 >>
 stream
 BT /F2 20 Tf 72 730 Td (Tanaboon Jewriyavetch) Tj ET
 BT /F1 11 Tf 72 710 Td (Software Developer) Tj ET
@@ -18,7 +18,7 @@ BT /F2 12 Tf 72 660 Td (EXPERIENCE) Tj ET
 BT /F2 11 Tf 72 642 Td (Western Digital) Tj ET
 BT /F1 10.5 Tf 72 627 Td (Software Developer  |  Thailand  |  Sep 2025 - Present) Tj ET
 BT /F1 10.5 Tf 72 610 Td (- Contributed to systems-oriented CLI and desktop software across Linux and Windows.) Tj ET
-BT /F1 10.5 Tf 72 594 Td (- Improved build, CI, and test automation using Python, Bash, PowerShell, and Docker.) Tj ET
+BT /F1 10.5 Tf 72 594 Td (- Improved automated build, CI, and test workflows using scripting and container tooling.) Tj ET
 BT /F1 10.5 Tf 72 578 Td (- Added regression coverage for CLI, GUI, and integration paths; investigated failures.) Tj ET
 BT /F2 12 Tf 72 546 Td (EDUCATION) Tj ET
 BT /F2 11 Tf 72 528 Td (Thammasat University) Tj ET
@@ -57,10 +57,10 @@ xref
 0000000058 00000 n 
 0000000115 00000 n 
 0000000251 00000 n 
-0000002762 00000 n 
-0000002859 00000 n 
+0000002766 00000 n 
+0000002863 00000 n 
 trailer
 << /Size 7 /Root 1 0 R >>
 startxref
-2961
+2965
 %%EOF
