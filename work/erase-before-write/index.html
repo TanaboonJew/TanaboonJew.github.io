@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Erase Before Write — Tanaboon Jewriyavetch</title><meta name="description" content="An interactive SSD simulator: watch a flash translation layer remap every write, run garbage collection, and pay for it in write amplification. Tested TypeScript core; every run reproducible from a seed."><meta name="author" content="Tanaboon “Max” Jewriyavetch"><link rel="canonical" href="https://tanaboonjew.github.io/work/erase-before-write/"><meta name="theme-color" content="#FAFAF9" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0C0D0E" media="(prefers-color-scheme: dark)"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preload" href="/_astro/inter-latin-wght-normal.Dx4kXJAl.woff2" as="font" type="font/woff2" crossorigin><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Tanaboon “Max” Jewriyavetch — Writing" href="/rss.xml"><meta property="og:title" content="Erase Before Write — Tanaboon Jewriyavetch"><meta property="og:description" content="An interactive SSD simulator: watch a flash translation layer remap every write, run garbage collection, and pay for it in write amplification. Tested TypeScript core; every run reproducible from a seed."><meta property="og:type" content="website"><meta property="og:url" content="https://tanaboonjew.github.io/work/erase-before-write/"><meta property="og:site_name" content="Tanaboon “Max” Jewriyavetch"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://tanaboonjew.github.io/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Tanaboon “Max” Jewriyavetch: software engineer in Thailand. I build software. It works. That's generally the goal."><meta name="twitter:card" content="summary_large_image"><script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Tanaboon Jewriyavetch","url":"https://tanaboonjew.github.io","jobTitle":"Software Engineer","address":{"@type":"PostalAddress","addressCountry":"TH"},"sameAs":["https://github.com/TanaboonJew","https://www.linkedin.com/in/tanaboonjew"]}</script><link rel="stylesheet" href="/_astro/_slug_.BacsYuuL.css"><link rel="stylesheet" href="/_astro/FlashSim_astro_astro_type_style_index_0_lang.D3YEpUXQ.css"></head> <body> <a class="skip-link" href="#main">Skip to content</a> <header class="site-header"> <div class="container header-inner"> <a href="/" class="logo" aria-label="max — home">max<span>.</span></a> <nav class="nav-desktop" aria-label="Main"> <a href="/work/" class="active" aria-current="true">Work</a><a href="/writing/">Writing</a><a href="/about/">About</a> <a href="/resume.pdf" class="resume-link">Résumé<span class="ext-arrow" aria-hidden="true">&nbsp;↗</span></a> </nav> <div class="header-actions"> <a class="icon-link" href="https://github.com/TanaboonJew" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"> <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path> </svg> </a> <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle color theme"> <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"> <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path> </svg> <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </button> <script>(function(){
+  const btn = document.getElementById('theme-toggle');
+  if (btn) {
+    const label = () =>
+      btn.setAttribute(
+        'aria-label',
+        document.documentElement.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+      );
+    label();
+    btn.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch (e) {}
+      label();
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+      try {
+        if (localStorage.getItem('theme')) return;
+      } catch (e) {}
+      document.documentElement.dataset.theme = event.matches ? 'dark' : 'light';
+      label();
+    });
+  }
+})();</script> <button type="button" class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="mobile-drawer" aria-label="Open menu"> <span class="bar"></span> <span class="bar"></span> <span class="bar"></span> </button> </div> </div> <div class="mobile-drawer" id="mobile-drawer"> <nav class="drawer-nav" aria-label="Mobile"> <a href="/work/" class="active" aria-current="true">Work</a><a href="/writing/">Writing</a><a href="/about/">About</a> <a href="/resume.pdf">Résumé ↗</a> <a href="https://github.com/TanaboonJew" target="_blank" rel="noopener noreferrer">GitHub</a> <a href="https://www.linkedin.com/in/tanaboonjew" target="_blank" rel="noopener noreferrer">LinkedIn</a> <a href="mailto:tanaboon.jew@gmail.com">Email</a> </nav> </div> </header> <script type="module">const t=document.getElementById("nav-burger"),n=document.getElementById("mobile-drawer");function s(e){!t||!n||(n.classList.toggle("open",e),t.setAttribute("aria-expanded",String(e)),t.setAttribute("aria-label",e?"Close menu":"Open menu"))}t?.addEventListener("click",()=>{s(!n?.classList.contains("open"))});n?.addEventListener("click",e=>{e.target.closest("a")&&s(!1)});window.addEventListener("keydown",e=>{e.key==="Escape"&&s(!1)});</script> <main id="main">  <article> <header class="container"> <div class="page-hero"> <p class="section-index"><a href="/work/" class="text-link">← Work</a></p> <h1 style="margin-top: 18px;">Erase Before Write</h1> <p class="lede">An interactive SSD simulator: watch a flash translation layer remap every write, run garbage collection, and pay for it in write amplification. Tested TypeScript core; every run reproducible from a seed.</p> <div class="case-meta"> <span class="chip chip-accent">Live</span> <span class="chip">2026</span> <span class="chip">TypeScript</span><span class="chip">Canvas</span><span class="chip">node:test</span><span class="chip">Astro</span> </div> </div> </header> <div class="container reading prose" style="padding-bottom: 24px;">  <h2 id="the-idea">The idea</h2>
+<p>An SSD can’t overwrite data in place. NAND flash programs a page once, and the only way to reuse
+it is to erase the whole block it lives in, dozens or hundreds of pages at a time. So every drive
+runs firmware that quietly lies to the operating system: the flash translation layer keeps a map
+from logical addresses to physical pages, sends every update to a fresh page, and leaves the old
+copy behind as stale.</p>
+<p>Eventually the fresh pages run out. Garbage collection picks a victim block, copies whatever is
+still valid somewhere else, and erases it. Those copies are writes the host never asked for. The
+ratio of flash writes to host writes is the write amplification, and it decides how fast a drive
+slows down and wears out. I wanted to watch it happen instead of reading about it, so I built the
+drive.</p>
+<h2 id="try-it">Try it</h2>
+<div class="fs-tool" data-fs data-astro-cid-spf7ynem> <div class="fs-controls" data-astro-cid-spf7ynem> <div class="fs-control" data-astro-cid-spf7ynem> <span class="fs-label" id="fs-workload-label" data-astro-cid-spf7ynem>Workload</span> <div class="fs-seg" role="group" aria-labelledby="fs-workload-label" data-astro-cid-spf7ynem> <button type="button" data-workload="sequential" aria-pressed="false" data-astro-cid-spf7ynem>Sequential</button> <button type="button" data-workload="random" aria-pressed="true" data-astro-cid-spf7ynem>Random</button> <button type="button" data-workload="hotcold" aria-pressed="false" title="80% of writes land on 20% of the drive" data-astro-cid-spf7ynem>Hot/cold</button> </div> </div> <div class="fs-control" data-astro-cid-spf7ynem> <span class="fs-label" id="fs-policy-label" data-astro-cid-spf7ynem>GC victim</span> <div class="fs-seg" role="group" aria-labelledby="fs-policy-label" data-astro-cid-spf7ynem> <button type="button" data-policy="greedy" aria-pressed="true" title="Block with the fewest valid pages" data-astro-cid-spf7ynem>Greedy</button> <button type="button" data-policy="cost-benefit" aria-pressed="false" title="Reclaimed space × age ÷ copy cost" data-astro-cid-spf7ynem>Cost-benefit</button> <button type="button" data-policy="fifo" aria-pressed="false" title="Oldest block first" data-astro-cid-spf7ynem>FIFO</button> </div> </div> <div class="fs-control" data-astro-cid-spf7ynem> <label class="fs-label" for="fs-op" data-astro-cid-spf7ynem>Over-provisioning <output for="fs-op" data-fs-op-value data-astro-cid-spf7ynem>7%</output></label> <input id="fs-op" class="fs-range" type="range" min="5" max="50" step="1" value="7" data-fs-op data-astro-cid-spf7ynem> </div> <div class="fs-control" data-astro-cid-spf7ynem> <span class="fs-label" id="fs-speed-label" data-astro-cid-spf7ynem>Speed</span> <div class="fs-seg" role="group" aria-labelledby="fs-speed-label" data-astro-cid-spf7ynem> <button type="button" data-speed="1" aria-pressed="false" data-astro-cid-spf7ynem>Watch</button> <button type="button" data-speed="24" aria-pressed="true" data-astro-cid-spf7ynem>Fast</button> <button type="button" data-speed="400" aria-pressed="false" data-astro-cid-spf7ynem>Turbo</button> </div> </div> </div> <div class="fs-actions" data-astro-cid-spf7ynem> <button type="button" class="fs-btn fs-primary" data-fs-run aria-pressed="false" data-astro-cid-spf7ynem>Run</button> <button type="button" class="fs-btn" data-fs-step data-astro-cid-spf7ynem>Step</button> <button type="button" class="fs-btn" data-fs-fill data-astro-cid-spf7ynem>Fill drive</button> <button type="button" class="fs-btn" data-fs-trim data-astro-cid-spf7ynem>TRIM 25%</button> <button type="button" class="fs-btn" data-fs-reset data-astro-cid-spf7ynem>Reset</button> <div class="fs-seg fs-view" role="group" aria-label="Color blocks by" data-astro-cid-spf7ynem> <button type="button" data-view="pages" aria-pressed="true" data-astro-cid-spf7ynem>Pages</button> <button type="button" data-view="wear" aria-pressed="false" data-astro-cid-spf7ynem>Wear</button> </div> </div> <p class="fs-meta" data-fs-meta data-astro-cid-spf7ynem></p> <div class="fs-canvas-wrap" data-astro-cid-spf7ynem> <canvas data-fs-canvas role="img" aria-label="Simulated flash chip: 128 erase blocks of 32 pages. Blue pages hold valid data, amber pages are stale copies waiting for garbage collection, gray pages are erased." data-astro-cid-spf7ynem></canvas> </div> <div class="fs-legend" data-fs-legend-pages data-astro-cid-spf7ynem> <span data-astro-cid-spf7ynem><i class="fs-sw fs-sw-free" data-astro-cid-spf7ynem></i>Erased</span> <span data-astro-cid-spf7ynem><i class="fs-sw fs-sw-valid" data-astro-cid-spf7ynem></i>Valid</span> <span data-astro-cid-spf7ynem><i class="fs-sw fs-sw-stale" data-astro-cid-spf7ynem></i>Stale</span> <span data-astro-cid-spf7ynem><i class="fs-sw fs-sw-host" data-astro-cid-spf7ynem></i>Host write block</span> <span data-astro-cid-spf7ynem><i class="fs-sw fs-sw-gc" data-astro-cid-spf7ynem></i>GC copy block</span> </div> <div class="fs-legend" data-fs-legend-wear hidden data-astro-cid-spf7ynem> <span data-astro-cid-spf7ynem>Erases vs. average</span><span data-astro-cid-spf7ynem>−25%</span><i class="fs-gradient" data-astro-cid-spf7ynem></i><span data-astro-cid-spf7ynem>+25%</span> </div> <div class="fs-readout" data-astro-cid-spf7ynem> <div class="fs-headline" data-astro-cid-spf7ynem> <span class="fs-label" data-astro-cid-spf7ynem>Write amplification</span> <span class="fs-big" data-astro-cid-spf7ynem><span data-stat="recent" data-astro-cid-spf7ynem>1.00</span>×</span> <span class="fs-sub" data-astro-cid-spf7ynem>last 1,024 writes · lifetime <span data-stat="lifetime" data-astro-cid-spf7ynem>1.00</span>×</span> </div> <dl class="fs-stats" data-astro-cid-spf7ynem> <div data-astro-cid-spf7ynem><dt data-astro-cid-spf7ynem>Host writes</dt><dd data-stat="host" data-astro-cid-spf7ynem>0</dd></div> <div data-astro-cid-spf7ynem><dt data-astro-cid-spf7ynem>Flash writes</dt><dd data-stat="nand" data-astro-cid-spf7ynem>0</dd></div> <div data-astro-cid-spf7ynem><dt data-astro-cid-spf7ynem>GC copies</dt><dd data-stat="copies" data-astro-cid-spf7ynem>0</dd></div> <div data-astro-cid-spf7ynem><dt data-astro-cid-spf7ynem>Erases</dt><dd data-stat="erases" data-astro-cid-spf7ynem>0</dd></div> <div data-astro-cid-spf7ynem><dt data-astro-cid-spf7ynem>Free blocks</dt><dd data-stat="free" data-astro-cid-spf7ynem>0</dd></div> <div data-astro-cid-spf7ynem><dt data-astro-cid-spf7ynem>Drive writes</dt><dd data-stat="fills" data-astro-cid-spf7ynem>0.0×</dd></div> <div data-astro-cid-spf7ynem><dt data-astro-cid-spf7ynem>Erases/block min · avg · max</dt><dd data-stat="wear" data-astro-cid-spf7ynem>0 · 0.0 · 0</dd></div> </dl> </div> <div class="fs-chart" data-astro-cid-spf7ynem> <span class="fs-chart-label" data-fs-ymax data-astro-cid-spf7ynem>2×</span> <svg viewBox="0 0 240 64" preserveAspectRatio="none" aria-hidden="true" data-astro-cid-spf7ynem> <polyline data-fs-line points="" data-astro-cid-spf7ynem></polyline> </svg> <span class="fs-chart-label fs-chart-base" data-astro-cid-spf7ynem>1×</span> </div> <p class="fs-note" data-fs-note aria-live="polite" data-astro-cid-spf7ynem></p> </div> <script type="module" src="/_astro/FlashSim.astro_astro_type_script_index_0_lang.Bf8Bqfbx.js"></script> 
+<p>Each tile is one erase block of 32 pages. Blue pages hold live data, amber pages are stale copies
+waiting for garbage collection, gray pages are erased. The two outlined tiles are the open blocks:
+one takes new host writes, the other takes pages that garbage collection is relocating.</p>
+<p>Things worth trying:</p>
+<ul>
+<li><strong>Sequential writes stay at 1.00×.</strong> Overwriting the drive in order makes whole blocks go stale
+together, so garbage collection never has to copy a page.</li>
+<li><strong>Random writes are expensive.</strong> At 7% over-provisioning the drive settles around 7.5×: every
+page the host writes costs about seven and a half flash writes. Drag the slider to 28% and it
+drops to about 2.4×.</li>
+<li><strong>Skewed traffic rewards a smarter victim.</strong> Under hot/cold writes, cost-benefit beats greedy,
+because it leaves recently written blocks alone until their data has had time to go stale. The
+wear view shows greedy erasing the same blocks over and over.</li>
+<li><strong>TRIM is spare area for free.</strong> Trim a quarter of the drive mid-run and recent write
+amplification falls by more than half, until those addresses are written again.</li>
+</ul>
+<h2 id="measured-not-assumed">Measured, not assumed</h2>
+<p>The engine is a deterministic state machine driven by a seeded workload generator, so these
+numbers are reproducible. Steady state after a sequential fill and four drive writes, measured
+over the next eight, mean of five seeds:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Workload</th><th>Over-provisioning</th><th>Greedy</th><th>Cost-benefit</th><th>FIFO</th></tr></thead><tbody><tr><td>Random</td><td>7%</td><td>7.45×</td><td>7.76×</td><td>9.25×</td></tr><tr><td>Random</td><td>15%</td><td>3.90×</td><td>3.99×</td><td>4.37×</td></tr><tr><td>Random</td><td>28%</td><td>2.43×</td><td>2.46×</td><td>2.58×</td></tr><tr><td>Hot/cold 80/20</td><td>7%</td><td>7.28×</td><td>6.94×</td><td>8.67×</td></tr><tr><td>Hot/cold 80/20</td><td>15%</td><td>3.95×</td><td>3.58×</td><td>4.64×</td></tr><tr><td>Hot/cold 80/20</td><td>28%</td><td>2.58×</td><td>2.29×</td><td>2.93×</td></tr></tbody></table>
+<p>Two results were not what I expected. On uniform random traffic, cost-benefit is slightly <em>worse</em>
+than greedy: when every address is equally likely to be rewritten, a block’s age says nothing about
+its future, so weighting by age only adds noise. And FIFO, the worst policy for write amplification
+everywhere, wears the flash most evenly. Under hot/cold traffic at 15% over-provisioning, after a
+dozen drive writes, the gap between the most- and least-erased block is 6 erases with FIFO, 10 with
+cost-benefit, and 26 with greedy.</p>
+<p>As a check on the small drive, the same engine with 1,024 blocks of 64 pages lands within 5% of
+these random-write numbers, so the demo’s size isn’t what produces them.</p>
+<h2 id="how-it-works">How it works</h2>
+<ul>
+<li><strong>Page-level mapping.</strong> A logical-to-physical table, its reverse, and a valid-page count per
+block. An overwrite programs the next free page of the open block, marks the old page stale, and
+updates both tables.</li>
+<li><strong>Separate open blocks for host writes and relocations.</strong> Pages that garbage collection copies
+are usually cold. Writing them next to fresh host data would mix lifetimes in one block and make
+the next cleanup more expensive.</li>
+<li><strong>A reserve of erased blocks.</strong> Garbage collection runs before the host gets a new block whenever
+only one erased block is left. The constructor refuses any geometry where, even with every closed
+block full of valid data, the collector could fail to find a stale page to reclaim.</li>
+<li><strong>Three victim policies.</strong> Greedy takes the block with the fewest valid pages. FIFO takes the
+oldest. Cost-benefit, the flash variant of the cleaner from Rosenblum and Ousterhout’s
+log-structured file system, weighs the space a block would free and its age against the cost of
+copying out its live pages.</li>
+<li><strong>Dynamic wear leveling.</strong> New blocks come from the least-erased end of the free pool.</li>
+<li><strong>The page is only a view.</strong> The browser runs the same module as the tests. The canvas batches
+pages by state into three fills per frame, so even turbo speed, 400 host writes a frame, stays
+smooth.</li>
+</ul>
+<h2 id="tested">Tested</h2>
+<p>The simulation core is plain TypeScript with no DOM and no dependencies, tested with Node’s
+built-in test runner. An audit method cross-checks both mapping tables, every valid-page count, the
+free list, and the identity <em>flash writes = host writes + relocations</em>. The suite runs it through
+60,000 mixed writes and trims under every policy, then pins down each claim on this page:
+sequential writes never copy a page, more over-provisioning means less amplification, greedy beats
+FIFO on random traffic, cost-benefit beats greedy on skewed traffic, TRIM helps, and a seed
+reproduces a run exactly.</p>
+<h2 id="what-it-leaves-out">What it leaves out</h2>
+<p>Real firmware handles a lot this model ignores: parallelism across planes and dies, an SLC write
+cache, read disturb and data retention, ECC and bad blocks, static wear leveling, and keeping the
+mapping table intact through a power cut. It’s a model for building intuition about garbage
+collection, not a drive.</p>  </div> <div class="container reading article-footer-note"> <p class="meta-line">Source repository is private. The case study is public.</p> <nav class="next-project" aria-label="More work"> <a class="text-link" href="/work/">← All work</a> <a class="text-link" href="/work/finplan/">Next: FinPlan <span class="arrow">→</span></a> </nav> </div> </article>  </main> <footer class="site-footer"> <div class="container footer-inner"> <a href="mailto:tanaboon.jew@gmail.com">Email</a> <a href="https://github.com/TanaboonJew" target="_blank" rel="noopener noreferrer">GitHub</a> <a href="https://www.linkedin.com/in/tanaboonjew" target="_blank" rel="noopener noreferrer">LinkedIn</a> <span class="footer-copy">© 2026 Tanaboon Jewriyavetch</span> </div> </footer> </body></html>

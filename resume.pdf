@@ -9,7 +9,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>
 endobj
 4 0 obj
-<< /Length 2428 >>
+<< /Length 2670 >>
 stream
 BT /F2 20 Tf 72 730 Td (Tanaboon Jewriyavetch) Tj ET
 BT /F1 11 Tf 72 710 Td (Software Engineer) Tj ET
@@ -24,21 +24,24 @@ BT /F2 12 Tf 72 545 Td (EDUCATION) Tj ET
 BT /F2 11 Tf 72 527 Td (Thammasat University) Tj ET
 BT /F1 10.5 Tf 72 512 Td (B.Eng. in Computer Engineering  |  2025) Tj ET
 BT /F2 12 Tf 72 480 Td (SELECTED PERSONAL PROJECTS) Tj ET
-BT /F2 10.5 Tf 72 462 Td (FinPlan) Tj ET
-BT /F1 10.5 Tf 90 448 Td (Public local-first finance toolkit with a tested finance engine and browser-local state.) Tj ET
-BT /F1 10 Tf 90 434 Td (Personal stack: TypeScript, Next.js, Zustand, Vitest) Tj ET
-BT /F2 10.5 Tf 72 416 Td (Passenger Princess) Tj ET
-BT /F1 10.5 Tf 90 402 Td (Pre-release Cyberpunk 2077 passenger-meetup mod with defensive lifecycle cleanup.) Tj ET
-BT /F1 10 Tf 90 388 Td (Personal stack: Lua, Cyber Engine Tweaks, Codeware, redscript) Tj ET
-BT /F2 10.5 Tf 72 370 Td (PhotoModeOutfit-Songbird) Tj ET
-BT /F1 10.5 Tf 90 356 Td (Photo Mode outfit mod with repeatable resource preparation and release validation.) Tj ET
-BT /F1 10 Tf 90 342 Td (Personal stack: Python, ArchiveXL, TweakXL, WolvenKit) Tj ET
-BT /F2 12 Tf 72 310 Td (PROFESSIONAL / ESTABLISHED SKILLS) Tj ET
-BT /F1 10.2 Tf 72 293 Td (Languages: Rust, Python, Bash/POSIX shell, PowerShell, JavaScript, Groovy, HTML/CSS) Tj ET
-BT /F1 10.2 Tf 72 278 Td (Frameworks: PySide6/Qt, pytest/pytest-qt, Tokio, Serde, Clap, GTK4/Libadwaita) Tj ET
-BT /F1 10.2 Tf 72 263 Td (Platforms & tools: Linux, Windows, Git, Jenkins, Docker, Cargo, Python packaging) Tj ET
-BT /F1 10.2 Tf 72 248 Td (Engineering: testing, CI/CD, build automation, debugging, reliability, documentation) Tj ET
-BT /F1 9.5 Tf 72 218 Td (More small apps, APIs, utilities, and experiments: tanaboonjew.github.io/work/) Tj ET
+BT /F2 10.5 Tf 72 462 Td (Erase Before Write) Tj ET
+BT /F1 10.5 Tf 90 448 Td (Interactive SSD simulator of garbage collection, write amplification, and TRIM.) Tj ET
+BT /F1 10 Tf 90 434 Td (Personal stack: TypeScript, Canvas, node:test) Tj ET
+BT /F2 10.5 Tf 72 416 Td (FinPlan) Tj ET
+BT /F1 10.5 Tf 90 402 Td (Public local-first finance toolkit with a tested finance engine and browser-local state.) Tj ET
+BT /F1 10 Tf 90 388 Td (Personal stack: TypeScript, Next.js, Zustand, Vitest) Tj ET
+BT /F2 10.5 Tf 72 370 Td (Passenger Princess) Tj ET
+BT /F1 10.5 Tf 90 356 Td (Pre-release Cyberpunk 2077 passenger-meetup mod with defensive lifecycle cleanup.) Tj ET
+BT /F1 10 Tf 90 342 Td (Personal stack: Lua, Cyber Engine Tweaks, Codeware, redscript) Tj ET
+BT /F2 10.5 Tf 72 324 Td (PhotoModeOutfit-Songbird) Tj ET
+BT /F1 10.5 Tf 90 310 Td (Photo Mode outfit mod with repeatable resource preparation and release validation.) Tj ET
+BT /F1 10 Tf 90 296 Td (Personal stack: Python, ArchiveXL, TweakXL, WolvenKit) Tj ET
+BT /F2 12 Tf 72 264 Td (PROFESSIONAL / ESTABLISHED SKILLS) Tj ET
+BT /F1 10.2 Tf 72 247 Td (Languages: Rust, Python, Bash/POSIX shell, PowerShell, JavaScript, Groovy, HTML/CSS) Tj ET
+BT /F1 10.2 Tf 72 232 Td (Frameworks: PySide6/Qt, pytest/pytest-qt, Tokio, Serde, Clap, GTK4/Libadwaita) Tj ET
+BT /F1 10.2 Tf 72 217 Td (Platforms & tools: Linux, Windows, Git, Jenkins, Docker, Cargo, Python packaging) Tj ET
+BT /F1 10.2 Tf 72 202 Td (Engineering: testing, CI/CD, build automation, debugging, reliability, documentation) Tj ET
+BT /F1 9.5 Tf 72 172 Td (More small apps, APIs, utilities, and experiments: tanaboonjew.github.io/work/) Tj ET
 endstream
 endobj
 5 0 obj
@@ -54,10 +57,10 @@ xref
 0000000058 00000 n 
 0000000115 00000 n 
 0000000251 00000 n 
-0000002730 00000 n 
-0000002827 00000 n 
+0000002972 00000 n 
+0000003069 00000 n 
 trailer
 << /Size 7 /Root 1 0 R >>
 startxref
-2929
+3171
 %%EOF
