@@ -9,39 +9,36 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>
 endobj
 4 0 obj
-<< /Length 2464 >>
+<< /Length 2428 >>
 stream
 BT /F2 20 Tf 72 730 Td (Tanaboon Jewriyavetch) Tj ET
-BT /F1 11 Tf 72 710 Td (Software Developer) Tj ET
+BT /F1 11 Tf 72 710 Td (Software Engineer) Tj ET
 BT /F1 10 Tf 72 694 Td (tanaboon.jew@gmail.com  |  github.com/TanaboonJew  |  linkedin.com/in/tanaboonjew) Tj ET
-BT /F2 12 Tf 72 660 Td (EXPERIENCE) Tj ET
-BT /F2 11 Tf 72 642 Td (Western Digital) Tj ET
-BT /F1 10.5 Tf 72 627 Td (Software Developer  |  Thailand  |  Sep 2025 - Present) Tj ET
-BT /F1 10.5 Tf 72 610 Td (- Contributed to systems-oriented CLI and desktop software across Linux and Windows.) Tj ET
-BT /F1 10.5 Tf 72 594 Td (- Improved automated build, CI, and test workflows using scripting and container tooling.) Tj ET
-BT /F1 10.5 Tf 72 578 Td (- Investigated failures through root-cause analysis and added regression coverage across CLI, GUI, and integration behavior.) Tj ET
-BT /F2 12 Tf 72 546 Td (EDUCATION) Tj ET
-BT /F2 11 Tf 72 528 Td (Thammasat University) Tj ET
-BT /F1 10.5 Tf 72 513 Td (B.Eng Computer Engineering  |  2025) Tj ET
-BT /F2 12 Tf 72 481 Td (SELECTED PROJECTS) Tj ET
-BT /F2 10.5 Tf 72 463 Td (Foreman) Tj ET
-BT /F1 10.5 Tf 90 449 Td (Pipeline orchestrator for coding agents: approval gates, resumable runs \(Rust, Tauri\)) Tj ET
-BT /F2 10.5 Tf 72 432 Td (FinPlan) Tj ET
-BT /F1 10.5 Tf 90 418 Td (Local-first finance toolkit with tested math engine \(TypeScript, Next.js\)) Tj ET
-BT /F2 10.5 Tf 72 401 Td (Passenger Princess) Tj ET
-BT /F1 10.5 Tf 90 387 Td (Persistent NPC passenger behavior mod for Cyberpunk 2077 \(Lua, Cyber Engine Tweaks\)) Tj ET
+BT /F2 12 Tf 72 660 Td (PROFESSIONAL EXPERIENCE) Tj ET
+BT /F2 11 Tf 72 642 Td (Systems-oriented and cross-platform software) Tj ET
+BT /F1 10.5 Tf 72 625 Td (- Command-line and desktop software across Linux and Windows, focused on reliability.) Tj ET
+BT /F1 10.5 Tf 72 609 Td (- Build, CI, and test automation using scripting and container tooling.) Tj ET
+BT /F1 10.5 Tf 72 593 Td (- Root-cause investigation with regression coverage for CLI, GUI, and integration behavior.) Tj ET
+BT /F1 10.5 Tf 72 577 Td (- Developer tooling and human-reviewed AI-assisted engineering workflows.) Tj ET
+BT /F2 12 Tf 72 545 Td (EDUCATION) Tj ET
+BT /F2 11 Tf 72 527 Td (Thammasat University) Tj ET
+BT /F1 10.5 Tf 72 512 Td (B.Eng. in Computer Engineering  |  2025) Tj ET
+BT /F2 12 Tf 72 480 Td (SELECTED PERSONAL PROJECTS) Tj ET
+BT /F2 10.5 Tf 72 462 Td (FinPlan) Tj ET
+BT /F1 10.5 Tf 90 448 Td (Public local-first finance toolkit with a tested finance engine and browser-local state.) Tj ET
+BT /F1 10 Tf 90 434 Td (Personal stack: TypeScript, Next.js, Zustand, Vitest) Tj ET
+BT /F2 10.5 Tf 72 416 Td (Passenger Princess) Tj ET
+BT /F1 10.5 Tf 90 402 Td (Pre-release Cyberpunk 2077 passenger-meetup mod with defensive lifecycle cleanup.) Tj ET
+BT /F1 10 Tf 90 388 Td (Personal stack: Lua, Cyber Engine Tweaks, Codeware, redscript) Tj ET
 BT /F2 10.5 Tf 72 370 Td (PhotoModeOutfit-Songbird) Tj ET
-BT /F1 10.5 Tf 90 356 Td (Photo Mode outfit patch generator + validation pipeline \(Python, ArchiveXL, TweakXL\)) Tj ET
-BT /F1 10.5 Tf 72 338 Td (Personal archive of 40 small apps, APIs, utilities - tanaboonjew.github.io/work) Tj ET
-BT /F2 12 Tf 72 306 Td (TECHNICAL SKILLS) Tj ET
-BT /F1 10.5 Tf 72 289 Td (Languages: Rust, Python, Bash/POSIX shell, PowerShell, TypeScript, JavaScript, Groovy) Tj ET
-BT /F1 10.5 Tf 72 274 Td (Systems & Tools: Linux, Windows, Git, Jenkins, Docker, Cargo) Tj ET
-BT /F1 10.5 Tf 72 259 Td (Frameworks & Testing: PySide6/Qt, pytest, Tokio, Clap, React, Next.js, Vitest) Tj ET
-BT /F1 10.5 Tf 72 244 Td (Engineering: test automation, debugging/root-cause analysis, CI/CD, documentation) Tj ET
-BT /F2 12 Tf 72 212 Td (CONTACT) Tj ET
-BT /F1 10.5 Tf 72 194 Td (Email: tanaboon.jew@gmail.com) Tj ET
-BT /F1 10.5 Tf 72 178 Td (GitHub: github.com/TanaboonJew) Tj ET
-BT /F1 10.5 Tf 72 162 Td (LinkedIn: linkedin.com/in/tanaboonjew) Tj ET
+BT /F1 10.5 Tf 90 356 Td (Photo Mode outfit mod with repeatable resource preparation and release validation.) Tj ET
+BT /F1 10 Tf 90 342 Td (Personal stack: Python, ArchiveXL, TweakXL, WolvenKit) Tj ET
+BT /F2 12 Tf 72 310 Td (PROFESSIONAL / ESTABLISHED SKILLS) Tj ET
+BT /F1 10.2 Tf 72 293 Td (Languages: Rust, Python, Bash/POSIX shell, PowerShell, JavaScript, Groovy, HTML/CSS) Tj ET
+BT /F1 10.2 Tf 72 278 Td (Frameworks: PySide6/Qt, pytest/pytest-qt, Tokio, Serde, Clap, GTK4/Libadwaita) Tj ET
+BT /F1 10.2 Tf 72 263 Td (Platforms & tools: Linux, Windows, Git, Jenkins, Docker, Cargo, Python packaging) Tj ET
+BT /F1 10.2 Tf 72 248 Td (Engineering: testing, CI/CD, build automation, debugging, reliability, documentation) Tj ET
+BT /F1 9.5 Tf 72 218 Td (More small apps, APIs, utilities, and experiments: tanaboonjew.github.io/work/) Tj ET
 endstream
 endobj
 5 0 obj
@@ -57,10 +54,10 @@ xref
 0000000058 00000 n 
 0000000115 00000 n 
 0000000251 00000 n 
-0000002766 00000 n 
-0000002863 00000 n 
+0000002730 00000 n 
+0000002827 00000 n 
 trailer
 << /Size 7 /Root 1 0 R >>
 startxref
-2965
+2929
 %%EOF
